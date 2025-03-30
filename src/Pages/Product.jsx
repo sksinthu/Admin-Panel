@@ -17,6 +17,7 @@ const AddProduct = () => {
 
   const [productList, setProductList] = useState([]); // To hold the list of products
   const imageInputRef = useRef(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Function to fetch product list (mocked)
   const getProducts = async () => {
@@ -146,30 +147,110 @@ const AddProduct = () => {
     }
   };
 
-  const handleEdit = (index) => {
+  const handleEdit = async (index) => {
     const selectedProduct = productList[index];
+    setSelectedProduct(selectedProduct); // Store the selected product
     setProduct({
       name: selectedProduct.title,
       description: selectedProduct.body,
-      price: selectedProduct.userId, 
+      price: selectedProduct.userId,
       images: selectedProduct.images,
       category: selectedProduct.id, 
-      offerPercentage: "", 
-      stock: "", 
+      offerPercentage: "",
+      stock: "",
       saleTag: selectedProduct.body.split(", "), 
-      ratings: 5, 
+      ratings: 5,
     });
   };
-//deete function
-  const handleDelete = (index) => {
-    const updatedProductList = productList.filter((_, i) => i !== index);
-    setProductList(updatedProductList);
+
+  const handleUpdateProduct = async () => {
+    if (!selectedProduct) {
+      alert("No product selected for update!");
+      return;
+    }
+  
+    const updatedProduct = {
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      category: product.category,
+      offerPercentage: product.offerPercentage,
+      stock: product.stock,
+      saleTag: product.saleTag,
+      ratings: product.ratings,
+      images: product.images, 
+    };
+  
+    try {
+      console.log("Sending PUT request for product ID:", selectedProduct.id);
+  
+      // Send PUT request to update the product on the backend
+      const response = await axios.put(
+        `https://jsonplaceholder.typicode.com/posts/${selectedProduct.id}`, // Use selectedProduct.id for correct endpoint
+        updatedProduct
+      );
+  
+      console.log("Updated product:", response.data);
+  
+      // Check if the response has the updated product data and its id
+      if (!response.data || response.data.id !== selectedProduct.id) {
+        throw new Error("Product update failed");
+      }
+  
+      // Update the product list locally
+      const updatedProductList = productList.map((prod) =>
+        prod.id === selectedProduct.id ? { ...prod, ...updatedProduct } : prod
+      );
+      setProductList(updatedProductList);
+  
+      // Reset the form after update
+      setProduct({
+        name: "",
+        description: "",
+        price: "",
+        images: [],  // Clear the images field after update
+        category: "",
+        offerPercentage: "",
+        stock: "",
+        saleTag: [],
+        ratings: "",
+      });
+  
+      setSelectedProduct(null); // Reset selected product after update
+      imageInputRef.current.value = "";  // Reset the image input field manually
+
+      alert("Product updated successfully!");
+    } catch (error) {
+      console.error("Error updating product:", error);
+      alert("Failed to update product.");
+    }
+  };
+  
+  
+  const handleDelete = async (index) => {
+    const productToDelete = productList[index];
+
+    try {
+      // Send DELETE request to the backend
+      await axios.delete(
+        `https://jsonplaceholder.typicode.com/posts/${productToDelete.id}` // Replace with your backend API URL
+      );
+
+      // Remove the product from the local state
+      const updatedProductList = productList.filter((_, i) => i !== index);
+      setProductList(updatedProductList);
+
+      alert("Product deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      alert("Failed to delete product.");
+    }
   };
 
   return (
     <div className="add-product-container">
       <div className="form-container">
-        <h1 className="title">Add Product</h1>
+        <h1 className="title">{selectedProduct ? "Edit Product" : "Add Product"}</h1>
         <form onSubmit={handleSubmit} className="product-form">
           <div className="form-group">
             <label htmlFor="name">Product Name</label>
@@ -306,9 +387,14 @@ const AddProduct = () => {
           </div>
 
           <div className="form-group">
-            <button type="submit" className="submit-btn">
-              Add Product
-            </button>
+          <button
+  type="button" // Change this from "submit" to "button" to prevent form submission
+  className="submit-btn"
+  onClick={selectedProduct ? handleUpdateProduct : handleSubmit}
+>
+  {selectedProduct ? "Update Product" : "Add Product"}
+</button>
+
           </div>
         </form>
       </div>
@@ -356,18 +442,8 @@ const AddProduct = () => {
                       ))}
                   </td>
                   <td>
-                    <button
-                      className="edit-btn"
-                      onClick={() => handleEdit(index)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(index)}
-                    >
-                      Delete
-                    </button>
+                    <button className="edit-btn" onClick={() => handleEdit(index)}>Edit</button>
+                    <button className="delete" onClick={() => handleDelete(index)}>Delete</button>
                   </td>
                 </tr>
               ))}
