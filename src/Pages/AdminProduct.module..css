@@ -1,0 +1,185 @@
+.form-container {
+  background-color: #2c3e50;
+  padding: 30px;
+  border-radius: 8px;
+  width: 32rem;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;  /* Adjusted margin-top for better mobile spacing */
+  position: relative;
+  transform: translate(49rem,92px);
+}
+
+/* Title of the form */
+.title {
+  color: #ecf0f1;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Style for the form elements */
+.product-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  color: #ecf0f1;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #7f8c8d;
+  border-radius: 4px;
+  background-color: #34495e;
+  color: #ecf0f1;
+  font-size: 14px;
+}
+
+.form-input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.submit-btn {
+  padding: 12px;
+  background-color: #3498db;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #2980b9;
+}
+
+/* table content  style  */
+.product-table-container {
+  margin-top: 40px;
+  transform: translate(25rem,85px);
+
+}
+.product-table-container h2{
+ transform: translateY(1rem);
+}
+.product-table {
+  width: 1300px;
+  border-collapse: collapse;
+}
+
+
+.product-table th,
+.product-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #7f8c8d;
+}
+
+.product-table th {
+  background-color: #34495e;
+  color: #ecf0f1;
+}
+
+.product-table td {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+}
+
+.product-table img {
+  width: 50px;
+  height: 50px;
+}
+.edit-btn {
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.edit-btn:hover {
+  background-color: #e67e22;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Small screens (mobile devices) */
+@media (max-width: 767px) {
+  .form-container {
+    margin-top: 99px !important;
+    padding: 20px; /* Adjust padding for smaller screens */
+    max-width: 90%;  /* Makes the form container smaller on mobile */
+    width: 100%;  /* Ensures the form takes full width on small screens */
+    margin-left: 15px;
+  transform: translate(0%,0px);
+  overflow: hidden;
+
+  }
+
+  .title {
+    font-size: 20px; /* Smaller title on mobile */
+  }
+
+  .form-input {
+    font-size: 12px; /* Smaller font for inputs on mobile */
+    padding: 8px;  /* Reduced padding to decrease input box height */
+  }
+
+  .submit-btn {
+    font-size: 14px; /* Smaller button text */
+  }
+  .product-table-container {
+    transform: translate(0%,0px);
+  
+  }
+  .product-table {
+    width: 60px;
+    border-collapse: collapse;
+  }
+  
+}
+
+/* Medium screens (tablets) */
+@media (max-width: 1024px) {
+  .form-container {
+    margin-top: 40px;
+    max-width: 80%;  /* Adjust the form width for tablets */
+    padding: 25px; /* Slightly reduced padding */
+  }
+
+  .title {
+    font-size: 22px; /* Adjust title size for tablets */
+  }
+
+  .form-input {
+    font-size: 13px; /* Adjust input font size for tablets */
+    padding: 10px; /* Slightly reduced padding for smaller input boxes */
+  }
+
+  .submit-btn {
+    font-size: 15px; /* Adjust button size for tablets */
+  }
+}
